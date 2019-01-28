@@ -1,0 +1,2 @@
+{:magnet.module.scheduling/twarc-pgsql [:duct/module]
+ :magnet.scheduling/twarc [:duct/daemon]}
