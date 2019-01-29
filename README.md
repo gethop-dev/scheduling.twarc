@@ -54,6 +54,10 @@ So a realistic configuration example would look like this:
                           :logger #ig/ref :duct/logger}
 ```
 
+### Important note
+
+Remember that Integrant keys which derive from `:duct/migrator` (such as `:duct/migrator.ragtime`) are not initialized when running Duct from `-main`. So make sure you add `:duct/migrator` key to the arguments used to run the app from the uberjar (see https://github.com/duct-framework/duct/wiki/Configuration#top-level-components for additional information)
+
 ## License
 
 Copyright (c) Magnet S Coop 2018.
