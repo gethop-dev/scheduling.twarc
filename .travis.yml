@@ -4,7 +4,7 @@ dist: xenial
 services:
   - postgresql
 before_script:
-  - psql -c 'create database ${POSTGRES_DB};' -U postgres
+  - psql -c 'create database hyd;' -U postgres
 jdk:
   -openjdk8
 script: lein do cljfmt check, eastwood, test :all
