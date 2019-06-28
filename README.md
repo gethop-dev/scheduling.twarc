@@ -29,7 +29,7 @@ Example usage:
                                          :port #duct/env ["POSTGRES_PORT" Str]
                                          :db #duct/env ["POSTGRES_DB" Str]
                                          :user #duct/env ["POSTGRES_USER" Str]
-                                         :password #duct/env ["POSTGRES_PASSWORD"]}
+                                         :password #duct/env ["POSTGRES_PASSWORD" Str]}
                           :scheduler-name "main-scheduler"
                           :logger #ig/ref :duct/logger}
 ```
@@ -49,7 +49,7 @@ So a realistic configuration example would look like this:
                                          :port #duct/env ["POSTGRES_PORT" Str]
                                          :db #duct/env ["POSTGRES_DB" Str]
                                          :user #duct/env ["POSTGRES_USER" Str]
-                                         :password #duct/env ["POSTGRES_PASSWORD"]}
+                                         :password #duct/env ["POSTGRES_PASSWORD" Str]}
                           :scheduler-name "main-scheduler"
                           :logger #ig/ref :duct/logger}
 ```
