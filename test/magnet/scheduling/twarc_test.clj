@@ -4,11 +4,15 @@
 
 (ns ^:integration magnet.scheduling.twarc-test
   (:require [clojure.java.io :as io]
+            [clojure.spec.test.alpha :as stest]
             [clojure.test :refer :all]
             [duct.core :as duct]
             [integrant.core :as ig]
             [magnet.scheduling.twarc]
             [twarc.core :as twarc]))
+
+(defn enable-instrumentation []
+  (-> (stest/enumerate-namespace 'magnet.scheduling.twarc) stest/instrument))
 
 (defn get-config []
   (duct/load-hierarchy)
@@ -32,6 +36,7 @@
    (:scheduler)))
 
 (defn setup []
+  (enable-instrumentation)
   (migrate-quartz-tables))
 
 (defn teardown [])

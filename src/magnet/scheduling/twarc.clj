@@ -3,7 +3,8 @@
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/
 
 (ns magnet.scheduling.twarc
-  (:require [diehard.core :as diehard]
+  (:require [clojure.spec.alpha :as s]
+            [diehard.core :as diehard]
             [duct.logger :refer [log]]
             [integrant.core :as ig]
             [twarc.core :as twarc]))
@@ -47,29 +48,65 @@
   (format "jdbc:postgresql://%s:%s/%s?user=%s&password=%s"
           host port db user password))
 
+(def ^:private default-thread-count
+  "Default number of threads in the scheduler thread pool"
+  ;; From Quartz scheduler documentation: "If you only
+  ;; have a few jobs that fire a few times a day, then 1 thread is
+  ;; plenty! If you have tens of thousands of jobs, with many firing
+  ;; every minute, then you probably want a thread count more like 50 or
+  ;; 100".
+  ;; So set the default to some lower middle-ground.
+  10)
+
 (def ^:private props
   {:threadPool.class "org.quartz.simpl.SimpleThreadPool"
-   :threadPool.threadCount 1
    :plugin.triggHistory.class "org.quartz.plugins.history.LoggingTriggerHistoryPlugin"
    :plugin.jobHistory.class "org.quartz.plugins.history.LoggingJobHistoryPlugin"})
 
 (def ^:private default-name "main-scheduler")
 
-(defmethod ig/init-key :magnet.scheduling/twarc [_ {:keys [postgres-cfg scheduler-name logger max-retries backoff-ms]
-                                                    :or {scheduler-name default-name
-                                                         max-retries default-max-retries
-                                                         backoff-ms default-backoff-ms}}]
+(s/def ::postgres-cfg (s/keys ::req-un [host port db user password]))
+(s/def ::scheduler-name string?)
+(s/def ::pos-int? (s/and integer? pos?))
+(s/def ::thread-count ::pos-int?)
+(s/def ::logger #(satisfies? duct.logger/Logger %))
+(s/def ::max-retries :retry/max-retries) ;; From diehard.spec
+(s/def ::backoff-ms :retry/backoff-ms)   ;; From diehard.spec
+(s/def ::config (s/keys :req-un [::postgres-cfg ::logger]
+                        :opt-un [::scheduler-name ::thread-count ::max-retries ::backoff-ms]))
+
+(defn start-scheduler [{:keys [postgres-cfg
+                               scheduler-name
+                               thread-count
+                               logger
+                               max-retries
+                               backoff-ms]
+                        :or {scheduler-name default-name
+                             thread-count default-thread-count
+                             max-retries default-max-retries
+                             backoff-ms default-backoff-ms}
+                        :as config}]
+  {:pre [(s/valid? ::config config)]}
   (log logger :report ::starting-scheduler)
   (let [db-url (compose-db-url postgres-cfg)
         {:keys [user password]} postgres-cfg
-        props (merge props {:jobStore.class "org.quartz.impl.jdbcjobstore.JobStoreTX"
+        ;; Quartz tutorial suggests the following:
+        ;;   If your Scheduler is busy (i.e. nearly always executing
+        ;;   the same number of jobs as the size of the thread pool,
+        ;;   then you should probably set the number of connections in
+        ;;   the DataSource to be the about the size of the thread
+        ;;   pool + 2.
+        max-connections (+ 2 thread-count)
+        props (merge props {:threadPool.threadCount thread-count
+                            :jobStore.class "org.quartz.impl.jdbcjobstore.JobStoreTX"
                             :jobStore.driverDelegateClass "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
                             :jobStore.tablePrefix "qrtz_"
                             :jobStore.dataSource "db"
                             :dataSource.db.driver "org.postgresql.Driver"
                             :dataSource.db.URL db-url
                             :dataSource.db.user user
-                            :dataSource.db.password password})]
+                            :dataSource.db.password password
+                            :dataSource.db.maxconnections max-connections})]
     (diehard/with-retry {:retry-on Exception
                          :listener (listener logger max-retries)
                          :policy (retry-policy max-retries backoff-ms)
@@ -79,6 +116,13 @@
         (log logger :report ::scheduler-started)
         {:scheduler scheduler
          :logger logger}))))
+
+(s/def ::start-scheduler-args (s/cat :config ::config))
+(s/fdef start-scheduler
+  :args ::start-scheduler-args)
+
+(defmethod ig/init-key :magnet.scheduling/twarc [_ config]
+  (start-scheduler config))
 
 (defmethod ig/halt-key! :magnet.scheduling/twarc [_ {:keys [scheduler logger]}]
   (when scheduler
