@@ -8,19 +8,24 @@ A [Duct](https://github.com/duct-framework/duct) library that provides [Integran
 
 ## Usage
 
-This library provides two Integrant keys. The main one, called `:magnet.scheduling/twarc`, is used to create a Twarch scheduler, that expects the following configuration keys:
+This library provides an Integrant key called `:magnet.scheduling/twarc`, used to create a Twarc scheduler. It expects the following mandatory configuration keys:
 * `:postgres-cfg`: a map with the Postgres database connections details, with the following mandatory keys:
   * `:host`
   * `:port`
   * `:db`
   * `:user`
   * `:password`
-* `:scheduler-name`: the name for this particular scheduler. Schedulers using persistent JobStores need to have a name. If this key is not specified, the default value of `main-scheduler` is used.
 * `:logger`: usually a reference to `:duct/logger` key. But you can use any Integrant key derived from `:duct/logger` (such as `:duct.logger/timbre`).
+
+It also accepts the following optional configuration keys:
+* `:scheduler-name`: the name for this particular scheduler. Schedulers using persistent JobStores need to have a name. If this key is not specified, the default value of `main-scheduler` is used.
+* `:thread-count`: the size of the thread pool used by the scheduler to run scheduled jobs. If this key is not specified, the default value of 10 is used.
 
 Key initialization returns a scheduler already started and ready to accept scheduling jobs. See [Twarc](https://github.com/prepor/twarc) documentation for job scheduling details and options.
 
 Halting the key stops the scheduler and its scheduled jobs, and destroys any in memory state of the scheduler. But but the scheduled jobs and triggers are safely persisted in the backing database, ready to be picked up on next key initialization. So you need to initialize the key again to get a working instance of the scheduler and its associated jobs and triggers.
+
+**Important note**: The underlying Quartz library has a limitation when using database backed persistent JobStores (this this Duct library does). You can't use arguments for your scheduled jobs that are tied to application classes (e.g., anonymous functions, Records, etc.). The persistent JobStore uses the standard class loader and doesn't know how to find application classes, so it can't deserialize the objects persisted in the database.
 
 Example usage:
 
@@ -31,6 +36,7 @@ Example usage:
                                          :user #duct/env ["POSTGRES_USER" Str]
                                          :password #duct/env ["POSTGRES_PASSWORD" Str]}
                           :scheduler-name "main-scheduler"
+						  :thread-count 10
                           :logger #ig/ref :duct/logger}
 ```
 
