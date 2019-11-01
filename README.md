@@ -1,5 +1,8 @@
-[![Build Status](https://travis-ci.org/magnetcoop/scheduling.twarc.svg?branch=master)](https://travis-ci.org/magnetcoop/scheduling.twarc)
+[![Build Status](https://api.travis-ci.com/magnetcoop/scheduling.twarc.svg?branch=master)](https://travis-ci.com/magnetcoop/scheduling.twarc)
+[![Clojars Project](https://img.shields.io/clojars/v/magnet/scheduling.twarc.svg)](https://clojars.org/magnet/scheduling.twarc)
+
 # Duct Twarc
+
 A [Duct](https://github.com/duct-framework/duct) library that provides [Integrant](https://github.com/weavejester/integrant) keys for using [Twarc](https://github.com/prepor/twarc) scheduling library, with persistent JobStore backed by a Postgresql database.
 
 ## Installation
