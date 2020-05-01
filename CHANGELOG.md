@@ -5,8 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- New configuration key for the Duct module, to specify the name of the table storing applied Ragtime migrations.
+
 ### Changed
 - Bumped 3rd party dependencies
+- Moved migration files to a qualified directory (using the library namespace). This lets external users of the library directly manage the migration files with less probability of collisions, if they don't want to use the Duct module to automatically manage them.
+
 ## [0.4.0] - 2019-07-02
 
 ### Added
