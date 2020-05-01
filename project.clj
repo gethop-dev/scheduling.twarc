@@ -1,4 +1,4 @@
-(defproject magnet/scheduling.twarc "0.5.0"
+(defproject magnet/scheduling.twarc "0.5.1-SNAPSHOT"
   :description "Duct library that provides Integrant keys for using Twarc scheduling library with persistent JobStore"
   :url "https://github.com/magnetcoop/scheduling.twarc"
   :license {:name "Mozilla Public Licence 2.0"
