@@ -72,7 +72,7 @@ So a configuration example using the Duct module to handle the Postgresql tables
                                            :user #duct/env ["POSTGRES_USER" Str]
                                            :password #duct/env ["POSTGRES_PASSWORD" Str]}
                             :scheduler-name "main-scheduler"
-							:thread-count 10
+                            :thread-count 10
                             :logger #ig/ref :duct/logger}
 
   ;; More base profile Integrant keys..
