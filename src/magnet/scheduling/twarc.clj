@@ -26,15 +26,16 @@
 (def ^:const default-backoff-ms
   [default-initial-delay default-max-delay 2.0])
 
-(defn retry-policy [max-retries backoff-ms]
-  (diehard/retry-policy-from-config
-   {:max-retries max-retries
-    :backoff-ms backoff-ms}))
-
 (defn on-retry [logger max-retries]
   (let [remaining (- max-retries diehard/*executions*)]
     (log logger :report ::waiting-until-qwartz-tables-created
          {:retries-remaining remaining})))
+
+(defn retry-policy [logger max-retries backoff-ms]
+  (diehard/retry-policy-from-config
+   {:max-retries max-retries
+    :on-retry (fn [_ _] (on-retry logger max-retries))
+    :backoff-ms backoff-ms}))
 
 (defn fallback [logger]
   (log logger :report ::cant-start-twarc-scheduler {:reason :tables-dont-exist}))
@@ -102,8 +103,7 @@
                             :dataSource.db.password password
                             :dataSource.db.maxconnections max-connections})]
     (diehard/with-retry {:retry-on Exception
-                         :on-retry (fn [_ _] (on-retry logger max-retries))
-                         :policy (retry-policy max-retries backoff-ms)
+                         :policy (retry-policy logger max-retries backoff-ms)
                          :fallback (fn [_ _] (fallback logger))}
       (let [scheduler (-> (twarc/make-scheduler props {:name scheduler-name})
                           (twarc/start))]
