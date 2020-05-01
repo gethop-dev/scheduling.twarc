@@ -5,15 +5,14 @@
             :url "https://www.mozilla.org/en-US/MPL/2.0/"}
   :min-lein-version "2.9.0"
   :dependencies [[org.clojure/clojure "1.10.0"]
-                 [diehard "0.7.2"]
-                 [duct/core "0.7.0"]
-                 [duct/module.logging "0.4.0"]
-                 [duct/module.sql "0.5.0"]
-                 [duct/migrator.ragtime "0.3.0"]
-                 [integrant "0.7.0"]
-                 [org.clojure/core.async "0.3.443"]
-                 [org.postgresql/postgresql "42.2.5"]
-                 [twarc "0.1.12" :exclusions [org.clojure/core.async]]]
+                 [diehard "0.9.4"]
+                 [duct/core "0.8.0"]
+                 [duct/module.logging "0.5.0"]
+                 [duct/module.sql "0.6.0"]
+                 [duct/migrator.ragtime "0.3.2"]
+                 [integrant "0.8.0"]
+                 [org.postgresql/postgresql "42.2.12"]
+                 [twarc "0.1.13"]]
   :deploy-repositories [["snapshots" {:url "https://clojars.org/repo"
                                       :username :env/clojars_username
                                       :password :env/clojars_password
@@ -27,5 +26,5 @@
    :repl {:repl-options {:host "0.0.0.0"
                          :port 4001}}
    :profiles/dev {}
-   :project/dev {:plugins [[jonase/eastwood "0.3.4"]
-                           [lein-cljfmt "0.6.2"]]}})
+   :project/dev {:plugins [[jonase/eastwood "0.3.11"]
+                           [lein-cljfmt "0.6.7"]]}})
