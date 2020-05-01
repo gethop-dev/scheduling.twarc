@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [0.5.0] - 2020-05-02
 ### Added
 - New configuration key for the Duct module, to specify the name of the table storing applied Ragtime migrations.
 
@@ -13,7 +14,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Moved migration files to a qualified directory (using the library namespace). This lets external users of the library directly manage the migration files with less probability of collisions, if they don't want to use the Duct module to automatically manage them.
 
 ## [0.4.0] - 2019-07-02
-
 ### Added
 - This CHANGELOG
 - New configuration key to specify the scheduler thread pool size used to run scheduled jobs (was hardcoded to 1 before).
@@ -24,7 +24,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Added specs for public functions and instrumentation when running the tests
 
 ## [0.3.0] - 2019-01-29
-
 ### Added
 - Add Travis CI integration
 - Add deployment configuration and integration tests CI 
@@ -36,7 +35,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ## [0.2.0] - 2019-01-28
 - Initial commit (previous versions were not publicly released)
 
-[UNRELEASED]:  https://github.com/magnetcoop/scheduling.twarc/compare/v0.4.0...HEAD
+[UNRELEASED]:  https://github.com/magnetcoop/scheduling.twarc/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/magnetcoop/scheduling.twarc/releases/tag/v0.5.0
 [0.4.0]: https://github.com/magnetcoop/scheduling.twarc/releases/tag/v0.4.0
 [0.3.0]: https://github.com/magnetcoop/scheduling.twarc/releases/tag/v0.3.0
 [0.2.0]: https://github.com/magnetcoop/scheduling.twarc/releases/tag/v0.2.0
