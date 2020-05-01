@@ -36,11 +36,6 @@
     (log logger :report ::waiting-until-qwartz-tables-created
          {:retries-remaining remaining})))
 
-(defn listener [logger max-retries]
-  (diehard/listeners-from-config
-   {:on-retry (fn [result-value exception-thrown]
-                (on-retry logger max-retries))}))
-
 (defn fallback [logger]
   (log logger :report ::cant-start-twarc-scheduler {:reason :tables-dont-exist}))
 
@@ -107,7 +102,7 @@
                             :dataSource.db.password password
                             :dataSource.db.maxconnections max-connections})]
     (diehard/with-retry {:retry-on Exception
-                         :listener (listener logger max-retries)
+                         :on-retry (fn [_ _] (on-retry logger max-retries))
                          :policy (retry-policy max-retries backoff-ms)
                          :fallback (fn [_ _] (fallback logger))}
       (let [scheduler (-> (twarc/make-scheduler props {:name scheduler-name})
