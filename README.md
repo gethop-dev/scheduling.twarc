@@ -87,7 +87,7 @@ So a configuration example using the Duct module to handle the Postgresql tables
 
 #### Doing it by hand
 
-The files with the SQL sentences neede to create (and drop) the tables for Postgresqsl are located in the library resources directory. They can be accessed as resources with the relative paths "magnet.scheduling.twarc/migrations/001-quartz-pgsql.up.sql" and "magnet.scheduling.twarc/migrations/001-quartz-pgsql.down.sql" respectively.
+The files with the SQL sentences needed to create (and drop) the tables for Postgresqsl are located in the library resources directory. They can be accessed as resources with the relative paths `"magnet.scheduling.twarc/migrations/001-quartz-pgsql.up.sql"` and `"magnet.scheduling.twarc/migrations/001-quartz-pgsql.down.sql"` respectively.
 
 ### Important note
 
