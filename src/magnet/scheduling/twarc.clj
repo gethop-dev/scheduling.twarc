@@ -101,7 +101,7 @@
                             :dataSource.db.URL db-url
                             :dataSource.db.user user
                             :dataSource.db.password password
-                            :dataSource.db.maxconnections max-connections})]
+                            :dataSource.db.maxConnections max-connections})]
     (diehard/with-retry {:retry-on Exception
                          :policy (retry-policy logger max-retries backoff-ms)
                          :fallback (fn [_ _] (fallback logger))}
