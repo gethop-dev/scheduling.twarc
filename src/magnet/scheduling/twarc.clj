@@ -67,8 +67,7 @@
 
 (s/def ::postgres-cfg (s/keys ::req-un [host port db user password]))
 (s/def ::scheduler-name string?)
-(s/def ::pos-int? (s/and integer? pos?))
-(s/def ::thread-count ::pos-int?)
+(s/def ::thread-count pos-int?)
 (s/def ::logger #(satisfies? duct.logger/Logger %))
 (s/def ::max-retries :retry/max-retries) ;; From diehard.spec
 (s/def ::backoff-ms :retry/backoff-ms)   ;; From diehard.spec
