@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+
+## [0.6.0] - 2020-12-01
 ### Changed
 - Bumped 3rd party dependencies
 - **BREAKING CHANGE** Replaced the old `:postgres-cfg` configuration key with the new `:postgres-url` key. The new configuration key takes a string with a JDBC connection URL, instead of the old map with separate connection details.
@@ -38,7 +40,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ## [0.2.0] - 2019-01-28
 - Initial commit (previous versions were not publicly released)
 
-[UNRELEASED]:  https://github.com/magnetcoop/scheduling.twarc/compare/v0.5.0...HEAD
+[UNRELEASED]:  https://github.com/magnetcoop/scheduling.twarc/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/magnetcoop/scheduling.twarc/releases/tag/v0.6.0
 [0.5.0]: https://github.com/magnetcoop/scheduling.twarc/releases/tag/v0.5.0
 [0.4.0]: https://github.com/magnetcoop/scheduling.twarc/releases/tag/v0.4.0
 [0.3.0]: https://github.com/magnetcoop/scheduling.twarc/releases/tag/v0.3.0
