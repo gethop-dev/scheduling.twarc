@@ -13,7 +13,7 @@ A [Duct](https://github.com/duct-framework/duct) library that provides [Integran
 
 This library provides an Integrant key called `:magnet.scheduling/twarc`, used to create a Twarc scheduler. It expects the following mandatory configuration keys:
 
-* `:postgres-url`: **This is a breaking change from versions 0.5.0 and below** A string containing a JDBC connection URL, with the PostgreSQL database connections details. E.g., "jdbc:postgresql://pg-host:pg-port/pg-database?user=pg-username&password=pg-password"
+* `:postgres-url`: **This is a breaking change from versions 0.5.0 and below** A string containing a JDBC connection URL, with the PostgreSQL database connections details. E.g., `"jdbc:postgresql://pg-host:pg-port/pg-database?user=pg-username&password=pg-password"`
 * `:logger`: usually a reference to `:duct/logger` key. But you can use any Integrant key derived from `:duct/logger` (such as `:duct.logger/timbre`).
 
 It also accepts the following optional configuration keys:
@@ -33,11 +33,7 @@ Halting the key stops the scheduler and its scheduled jobs, and destroys any in 
 Example usage:
 
 ``` edn
-:magnet.scheduling/twarc {:postgres-cfg {:host #duct/env ["POSTGRES_HOST" Str]
-                                         :port #duct/env ["POSTGRES_PORT" Str]
-                                         :db #duct/env ["POSTGRES_DB" Str]
-                                         :user #duct/env ["POSTGRES_USER" Str]
-                                         :password #duct/env ["POSTGRES_PASSWORD" Str]}
+:magnet.scheduling/twarc {:postgres-url #duct/env ["JDBC_DATABASE_URL" Str]
                           :scheduler-name "main-scheduler"
                           :thread-count 10
                           :logger #ig/ref :duct/logger}
