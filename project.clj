@@ -5,14 +5,14 @@
             :url "https://www.mozilla.org/en-US/MPL/2.0/"}
   :min-lein-version "2.9.0"
   :dependencies [[org.clojure/clojure "1.10.0"]
-                 [diehard "0.9.4"]
+                 [diehard "0.10.2"]
                  [duct/core "0.8.0"]
                  [duct/module.logging "0.5.0"]
-                 [duct/module.sql "0.6.0"]
+                 [duct/module.sql "0.6.1"]
                  [duct/migrator.ragtime "0.3.2"]
                  [integrant "0.8.0"]
                  [org.postgresql/postgresql "42.2.12"]
-                 [twarc "0.1.13"]]
+                 [twarc "0.1.15"]]
   :deploy-repositories [["snapshots" {:url "https://clojars.org/repo"
                                       :username :env/clojars_username
                                       :password :env/clojars_password
