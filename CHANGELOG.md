@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Changed
 - Bumped 3rd party dependencies
+- **BREAKING CHANGE** Replaced the old `:postgres-cfg` configuration key with the new `:postgres-url` key. The new configuration key takes a string with a JDBC connection URL, instead of the old map with separate connection details.
 
 ## [0.5.0] - 2020-05-02
 ### Added

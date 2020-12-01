@@ -25,7 +25,6 @@
   (assoc options ::requires (ig/ref :duct.module/sql)))
 
 (defmethod ig/init-key :magnet.module.scheduling/twarc-pgsql [_ {:keys [migrations-table]
-                                                                 :or {migrations-table default-table}
-                                                                 :as options}]
+                                                                 :or {migrations-table default-table}}]
   (fn [config]
     (core/merge-configs config (get-config migrations-table))))

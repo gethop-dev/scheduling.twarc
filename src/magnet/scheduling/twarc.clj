@@ -40,10 +40,6 @@
 (defn fallback [logger]
   (log logger :report ::cant-start-twarc-scheduler {:reason :tables-dont-exist}))
 
-(defn- compose-db-url [{:keys [host port db user password]}]
-  (format "jdbc:postgresql://%s:%s/%s?user=%s&password=%s"
-          host port db user password))
-
 (def ^:private default-thread-count
   "Default number of threads in the scheduler thread pool"
   ;; From Quartz scheduler documentation: "If you only
@@ -61,16 +57,16 @@
 
 (def ^:private default-name "main-scheduler")
 
-(s/def ::postgres-cfg (s/keys ::req-un [host port db user password]))
+(s/def ::postgres-url string?)
 (s/def ::scheduler-name string?)
 (s/def ::thread-count pos-int?)
 (s/def ::logger #(satisfies? duct.logger/Logger %))
 (s/def ::max-retries :retry/max-retries) ;; From diehard.spec
 (s/def ::backoff-ms :retry/backoff-ms)   ;; From diehard.spec
-(s/def ::config (s/keys :req-un [::postgres-cfg ::logger]
+(s/def ::config (s/keys :req-un [::postgres-url ::logger]
                         :opt-un [::scheduler-name ::thread-count ::max-retries ::backoff-ms]))
 
-(defn start-scheduler [{:keys [postgres-cfg
+(defn start-scheduler [{:keys [postgres-url
                                scheduler-name
                                thread-count
                                logger
@@ -83,9 +79,7 @@
                         :as config}]
   {:pre [(s/valid? ::config config)]}
   (log logger :report ::starting-scheduler)
-  (let [db-url (compose-db-url postgres-cfg)
-        {:keys [user password]} postgres-cfg
-        ;; Quartz tutorial suggests the following:
+  (let [;; Quartz tutorial suggests the following:
         ;;   If your Scheduler is busy (i.e. nearly always executing
         ;;   the same number of jobs as the size of the thread pool,
         ;;   then you should probably set the number of connections in
@@ -98,9 +92,7 @@
                             :jobStore.tablePrefix "qrtz_"
                             :jobStore.dataSource "db"
                             :dataSource.db.driver "org.postgresql.Driver"
-                            :dataSource.db.URL db-url
-                            :dataSource.db.user user
-                            :dataSource.db.password password
+                            :dataSource.db.URL postgres-url
                             :dataSource.db.maxConnections max-connections})]
     (diehard/with-retry {:retry-on Exception
                          :policy (retry-policy logger max-retries backoff-ms)

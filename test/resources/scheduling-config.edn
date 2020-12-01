@@ -2,12 +2,7 @@
  {:duct.core/project-ns twarc-test
 
   :magnet.scheduling/twarc
-  {:postgres-cfg
-   {:host #duct/env ["POSTGRES_HOST" Str]
-    :port #duct/env ["POSTGRES_PORT" Str]
-    :db #duct/env ["POSTGRES_DB" Str]
-    :user #duct/env ["POSTGRES_USER" Str]
-    :password #duct/env ["POSTGRES_PASSWORD" Str]}
+  {:postgres-url #duct/env ["JDBC_DATABASE_URL" Str]
    :scheduler-name "main-scheduler"
    :logger #ig/ref :duct/logger}}
 
