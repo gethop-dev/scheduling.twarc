@@ -14,8 +14,8 @@
    {:database (ig/ref :duct.database/sql)
     :migrations [(ig/ref ::001-quartz-pgsql)]}
    [:duct.migrator.ragtime/sql ::001-quartz-pgsql]
-   {:up [(io/resource "dev.gethop.scheduling.twarc.migrations/001-quartz-pgsql.up.sql")]
-    :down [(io/resource "dev.gethop.scheduling.twarc.migrations/001-quartz-pgsql.down.sql")]}})
+   {:up [(io/resource "dev/gethop/scheduling.twarc/migrations/001-quartz-pgsql.up.sql")]
+    :down [(io/resource "dev/gethop/scheduling.twarc/migrations/001-quartz-pgsql.down.sql")]}})
 
 (defn- get-config
   [migrations-table]
