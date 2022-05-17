@@ -1,4 +1,4 @@
-(defproject dev.gethop/scheduling.twarc "0.6.1"
+(defproject dev.gethop/scheduling.twarc "0.6.2-SNAPSHOT"
   :description "Duct library that provides Integrant keys for using Twarc scheduling library with persistent JobStore"
   :url "https://github.com/gethop-dev/scheduling.twarc"
   :license {:name "Mozilla Public Licence 2.0"
