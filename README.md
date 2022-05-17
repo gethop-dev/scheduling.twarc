@@ -1,5 +1,6 @@
-[![Build Status](https://api.travis-ci.com/magnetcoop/scheduling.twarc.svg?branch=master)](https://travis-ci.com/magnetcoop/scheduling.twarc)
-[![Clojars Project](https://img.shields.io/clojars/v/magnet/scheduling.twarc.svg)](https://clojars.org/magnet/scheduling.twarc)
+[![ci-cd](https://github.com/gethop-dev/scheduling.twarc/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/gethop-dev/scheduling.twarc/actions/workflows/ci-cd.yml)
+[![Clojars Project](https://img.shields.io/clojars/v/dev.gethop/scheduling.twarc.svg)](https://clojars.org/dev.gethop/scheduling.twarc)
+
 
 # Duct Twarc
 
@@ -7,7 +8,7 @@ A [Duct](https://github.com/duct-framework/duct) library that provides [Integran
 
 ## Installation
 
-[![Clojars Project](https://clojars.org/magnet/scheduling.twarc/latest-version.svg)](https://clojars.org/magnet/scheduling.twarc)
+[![Clojars Project](https://clojars.org/dev.gethop/scheduling.twarc/latest-version.svg)](https://clojars.org/dev.gethop/scheduling.twarc)
 
 ## Usage
 
@@ -78,7 +79,7 @@ So a configuration example using the Duct module to handle the Postgresql tables
 
 #### Doing it by hand
 
-The files with the SQL sentences needed to create (and drop) the tables for Postgresqsl are located in the library resources directory. They can be accessed as resources with the relative paths `"dev.gethop.scheduling.twarc.migrations/001-quartz-pgsql.up.sql"` and `"dev.gethop.scheduling.twarc.migrations/001-quartz-pgsql.down.sql"` respectively.
+The files with the SQL sentences needed to create (and drop) the tables for Postgresqsl are located in the library resources directory. They can be accessed as resources with the relative paths `"dev/gethop/scheduling.twarc/migrations/001-quartz-pgsql.up.sql"` and `"dev/gethop/scheduling.twarc/migrations/001-quartz-pgsql.down.sql"` respectively.
 
 ### Important note
 
@@ -86,6 +87,6 @@ Remember that Integrant keys which derive from `:duct/migrator` (such as `:duct/
 
 ## License
 
-Copyright (c) 2018, 2019, 2020 Magnet S Coop.
+Copyright (c) 2022 HOP Technologies
 
 The source code for the library is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
