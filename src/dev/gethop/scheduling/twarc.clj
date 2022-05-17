@@ -2,7 +2,7 @@
 ;; License, v. 2.0. If a copy of the MPL was not distributed with this
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-(ns magnet.scheduling.twarc
+(ns dev.gethop.scheduling.twarc
   (:require [clojure.spec.alpha :as s]
             [diehard.core :as diehard]
             [duct.logger :refer [log]]
@@ -107,10 +107,10 @@
 (s/fdef start-scheduler
   :args ::start-scheduler-args)
 
-(defmethod ig/init-key :magnet.scheduling/twarc [_ config]
+(defmethod ig/init-key :dev.gethop.scheduling/twarc [_ config]
   (start-scheduler config))
 
-(defmethod ig/halt-key! :magnet.scheduling/twarc [_ {:keys [scheduler logger]}]
+(defmethod ig/halt-key! :dev.gethop.scheduling/twarc [_ {:keys [scheduler logger]}]
   (when scheduler
     (twarc/stop scheduler))
   (log logger :report ::scheduler-stopped))

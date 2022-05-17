@@ -2,17 +2,17 @@
 ;; License, v. 2.0. If a copy of the MPL was not distributed with this
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-(ns ^:integration magnet.scheduling.twarc-test
+(ns ^:integration dev.gethop.scheduling.twarc-test
   (:require [clojure.java.io :as io]
             [clojure.spec.test.alpha :as stest]
             [clojure.test :refer :all]
+            [dev.gethop.scheduling.twarc]
             [duct.core :as duct]
             [integrant.core :as ig]
-            [magnet.scheduling.twarc]
             [twarc.core :as twarc]))
 
 (defn enable-instrumentation []
-  (-> (stest/enumerate-namespace 'magnet.scheduling.twarc) stest/instrument))
+  (-> (stest/enumerate-namespace 'dev.gethop.scheduling.twarc) stest/instrument))
 
 (defn get-config []
   (duct/load-hierarchy)
@@ -31,8 +31,8 @@
 (defn get-scheduler []
   (->
    config
-   (ig/init [:magnet.scheduling/twarc])
-   (:magnet.scheduling/twarc)
+   (ig/init [:dev.gethop.scheduling/twarc])
+   (:dev.gethop.scheduling/twarc)
    (:scheduler)))
 
 (defn setup []

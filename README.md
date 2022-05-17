@@ -11,7 +11,7 @@ A [Duct](https://github.com/duct-framework/duct) library that provides [Integran
 
 ## Usage
 
-This library provides an Integrant key called `:magnet.scheduling/twarc`, used to create a Twarc scheduler. It expects the following mandatory configuration keys:
+This library provides an Integrant key called `:dev.gethop.scheduling/twarc`, used to create a Twarc scheduler. It expects the following mandatory configuration keys:
 
 * `:postgres-url`: **This is a breaking change from versions 0.5.0 and below** A string containing a JDBC connection URL, with the PostgreSQL database connections details. E.g., `"jdbc:postgresql://pg-host:pg-port/pg-database?user=pg-username&password=pg-password"`
 * `:logger`: usually a reference to `:duct/logger` key. But you can use any Integrant key derived from `:duct/logger` (such as `:duct.logger/timbre`).
@@ -33,7 +33,7 @@ Halting the key stops the scheduler and its scheduled jobs, and destroys any in 
 Example usage:
 
 ``` edn
-:magnet.scheduling/twarc {:postgres-url #duct/env ["JDBC_DATABASE_URL" Str]
+:dev.gethop.scheduling/twarc {:postgres-url #duct/env ["JDBC_DATABASE_URL" Str]
                           :scheduler-name "main-scheduler"
                           :thread-count 10
                           :logger #ig/ref :duct/logger}
@@ -45,7 +45,7 @@ Example usage:
 
 The library can use [duct/migrator.ragtime](https://github.com/duct-framework/migrator.ragtime) to make sure that the Postgresql tables for the persistent JobStore exist, and have the right structure and content. It implements a Duct module that adds the migrations needed by this library to the system configuration map. If no `:duct/migrator.ragtime` configuration key is found, it automatically adds it and the library own migrations.
 
-This means that, in addition to the main configuration key, you can also specify the `:magnet.module.scheduling/twarc-pgsql` key for the Duct module. In that case, you must have a `:duct.module/sql` key (or other key derived from it) defined in your system configuration map, with the Postgresql database connection details.
+This means that, in addition to the main configuration key, you can also specify the `:dev.gethop.module.scheduling/twarc-pgsql` key for the Duct module. In that case, you must have a `:duct.module/sql` key (or other key derived from it) defined in your system configuration map, with the Postgresql database connection details.
 
 This Duct module accepts the following optional configuration key, that lets you specify the table name that will store the library own migrations (so they don't collide with your own app migrations and mess with migration application order):
 
@@ -57,7 +57,7 @@ So a configuration example using the Duct module to handle the Postgresql tables
 {:duct.profile/base
  {;; Other base profile Integrant keys..
 
-  :magnet.scheduling/twarc {:postgres-cfg {:host #duct/env ["POSTGRES_HOST" Str]
+  :dev.gethop.scheduling/twarc {:postgres-cfg {:host #duct/env ["POSTGRES_HOST" Str]
                                            :port #duct/env ["POSTGRES_PORT" Str]
                                            :db #duct/env ["POSTGRES_DB" Str]
                                            :user #duct/env ["POSTGRES_USER" Str]
@@ -71,14 +71,14 @@ So a configuration example using the Duct module to handle the Postgresql tables
 
  ;; More Duct modules Integrant keys...
  :duct.module/sql {:database-url #duct/env ["JDBC_DATABASE_URL" Str]}
- :magnet.module.scheduling/twarc-pgsql {:migrations-table "ragtime_migrations_twarc"}
+ :dev.gethop.module.scheduling/twarc-pgsql {:migrations-table "ragtime_migrations_twarc"}
 }
 
 ```
 
 #### Doing it by hand
 
-The files with the SQL sentences needed to create (and drop) the tables for Postgresqsl are located in the library resources directory. They can be accessed as resources with the relative paths `"magnet.scheduling.twarc/migrations/001-quartz-pgsql.up.sql"` and `"magnet.scheduling.twarc/migrations/001-quartz-pgsql.down.sql"` respectively.
+The files with the SQL sentences needed to create (and drop) the tables for Postgresqsl are located in the library resources directory. They can be accessed as resources with the relative paths `"dev.gethop.scheduling.twarc.migrations/001-quartz-pgsql.up.sql"` and `"dev.gethop.scheduling.twarc.migrations/001-quartz-pgsql.down.sql"` respectively.
 
 ### Important note
 

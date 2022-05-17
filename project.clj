@@ -1,6 +1,6 @@
-(defproject magnet/scheduling.twarc "0.6.1-SNAPSHOT"
+(defproject dev.gethop/scheduling.twarc "0.6.1-SNAPSHOT"
   :description "Duct library that provides Integrant keys for using Twarc scheduling library with persistent JobStore"
-  :url "https://github.com/magnetcoop/scheduling.twarc"
+  :url "https://github.com/gethop-dev/scheduling.twarc"
   :license {:name "Mozilla Public Licence 2.0"
             :url "https://www.mozilla.org/en-US/MPL/2.0/"}
   :min-lein-version "2.9.0"

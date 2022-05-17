@@ -1,2 +1,2 @@
-{:magnet.module.scheduling/twarc-pgsql [:duct/module]
- :magnet.scheduling/twarc [:duct/daemon]}
+{:dev.gethop.module.scheduling/twarc-pgsql [:duct/module]
+ :dev.gethop.scheduling/twarc [:duct/daemon]}

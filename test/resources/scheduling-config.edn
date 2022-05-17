@@ -1,7 +1,7 @@
 {:duct.profile/base
  {:duct.core/project-ns twarc-test
 
-  :magnet.scheduling/twarc
+  :dev.gethop.scheduling/twarc
   {:postgres-url #duct/env ["JDBC_DATABASE_URL" Str]
    :scheduler-name "main-scheduler"
    :logger #ig/ref :duct/logger}}
@@ -12,5 +12,5 @@
  :duct.module/logging {}
 
  :duct.module/sql {:database-url #duct/env ["JDBC_DATABASE_URL" Str]}
- :magnet.module.scheduling/twarc-pgsql {}
+ :dev.gethop.module.scheduling/twarc-pgsql {}
  }
